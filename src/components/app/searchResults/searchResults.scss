@@ -1,0 +1,44 @@
+.article {
+    &__grid {
+        display: grid;
+        grid-template-rows: repeat(10, 40px);
+        row-gap: 10px;
+        align-items: center;
+        justify-items: center;
+    }
+    &__item {
+        height: 40px;
+    }
+    &__url {
+        position: relative;
+        transition: color 0.3s ease;
+        cursor: pointer;
+        &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #ff6347;
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+        }
+        &:hover {
+            color: #ff6347;
+            &::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
+        }
+    }
+    &__card {
+        width: 600px;
+        padding: 9px 10px;
+        background-color: whitesmoke;
+        border-left: 4px solid rgba(0, 0, 0, 0);
+        border-radius: 5px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+}
