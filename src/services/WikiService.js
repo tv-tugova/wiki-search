@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 
+import axios from "axios";
 
 const useWikiService = () => {
     const apiBase = 'http://ru.wikipedia.org/w/api.php';
@@ -9,17 +10,17 @@ const useWikiService = () => {
 
     const request = async (url) => {
         try {
-            let res = await fetch(url);
+            let res = await axios.get(url);
 
-            if (!res.ok) {
-                throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-            }
-
-            const data = await res.json();
-
-            return data;
+            return res.data;
         } catch (error) {
+            if (error.response) {
+                console.error('Ошибка ответа:', error.response.status, error.response.data);
+            } else if (error.request) {
+                console.error('Нет ответа:', error.request);
+            } else {
             console.error('Ошибка при выполнении запроса:', error);
+            }
         }
     }
 
