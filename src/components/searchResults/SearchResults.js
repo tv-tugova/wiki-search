@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import './searchResults.scss';
 
-const SearchResults = () => {
+const SearchResults = ({searchQuery}) => {
     const apiBase = 'http://ru.wikipedia.org/w/api.php';
-    const query = 'Мастер и Маргарита';
 
     const [articles, setArticles] = useState([]);
 
     const request = async (url) => {
         try {
-            console.log(url);
             let res = await fetch(url);
 
             if (!res.ok) {
@@ -31,13 +29,15 @@ const SearchResults = () => {
     }
 
     const getAllArticles = async () => {
-        const result = await request(`${apiBase}?action=opensearch&search=${encodeURIComponent(query)}&limit=10&offset=0&format=json`);
+        const result = await request(`${apiBase}?action=opensearch&search=${encodeURIComponent(searchQuery)}&limit=10&offset=0&format=json`);
         setArticles(result);
     }
 
     useEffect(() => {
-        getAllArticles();
-    }, [])
+        if (searchQuery) {
+            getAllArticles();
+        }
+    }, [searchQuery])
 
     return (
         <div className='article__list'>
