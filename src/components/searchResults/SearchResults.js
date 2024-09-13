@@ -1,41 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+
+import useWikiService from '../../services/WikiService';
 
 import './searchResults.scss';
 
 const SearchResults = ({searchQuery}) => {
-    const apiBase = 'http://ru.wikipedia.org/w/api.php';
-
-    const [articles, setArticles] = useState([]);
-
-    const request = async (url) => {
-        try {
-            let res = await fetch(url);
-
-            if (!res.ok) {
-                throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-            }
-
-            const data = await res.json();
-
-            const articles = data[1].map((title, index) => ({
-                title,
-                url: data[3][index], 
-            }));
-
-            return articles;
-        } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
-        }
-    }
-
-    const getAllArticles = async () => {
-        const result = await request(`${apiBase}?action=opensearch&search=${encodeURIComponent(searchQuery)}&limit=10&offset=0&format=json`);
-        setArticles(result);
-    }
+    const {articles, getAllArticles} = useWikiService();
 
     useEffect(() => {
         if (searchQuery) {
-            getAllArticles();
+            getAllArticles(searchQuery);
         }
     }, [searchQuery])
 

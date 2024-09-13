@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
+import useWikiService from '../../services/WikiService';
 
 import './searchBar.scss';
 
 const SearchBar = ({ query, setQuery, setSearchQuery }) => {
+    const {randArticle, getRandArticle} = useWikiService();
 
     const onUpdateSearch = (e) => {
         setQuery(e.target.value);
@@ -18,6 +21,10 @@ const SearchBar = ({ query, setQuery, setSearchQuery }) => {
         }
     }
 
+    useEffect(() => {
+        getRandArticle();
+    }, [])
+
     return (
         <div className="search__wrapper">
             <span>
@@ -27,14 +34,21 @@ const SearchBar = ({ query, setQuery, setSearchQuery }) => {
                     className="search__icon"
                     onClick={onSearch}
                 />
-                <input type="text"
+                <input 
+                    type="text"
                     className="search__input"
                     placeholder="Search Here" 
                     value={query}
                     onChange={onUpdateSearch}
-                    onKeyDown={onEnterPress}/>
+                    onKeyDown={onEnterPress}
+                />
             </span>
-            <a className="btn">RANDOM!</a>
+            <a 
+                className="btn"
+                href={randArticle?.url}
+                target="_blank"
+                onClick={getRandArticle}
+            >RANDOM!</a>
         </div>
     )
 }
