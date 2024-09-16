@@ -1,12 +1,9 @@
-import React, {useState} from "react";
-
 import axios from "axios";
+
+import searchStore from "../stores/SearchStore";
 
 const useWikiService = () => {
     const apiBase = 'http://ru.wikipedia.org/w/api.php';
-
-    const [articles, setArticles] = useState([]);
-    const [randArticle, setRandArticle] = useState({});
 
     const request = async (url) => {
         try {
@@ -30,17 +27,17 @@ const useWikiService = () => {
             title,
             url: result[3][index]
         }));
-        setArticles(articles);
+        searchStore.setArticles(articles);
     }
 
     const getRandArticle = async () => {
         const result = await request(`${apiBase}?action=query&list=random&rnnamespace=0&rnlimit=1&format=json`);
         const randTitle = result.query.random[0].title;
         const randURL = `https://ru.wikipedia.org/wiki/${encodeURIComponent(randTitle)}`;
-        setRandArticle({ title: randTitle, url: randURL });
+        searchStore.setRandArticle({ title: randTitle, url: randURL });
     }
 
-    return {articles, getAllArticles, randArticle, getRandArticle};
+    return {getAllArticles, getRandArticle};
 }
 
 export default useWikiService;

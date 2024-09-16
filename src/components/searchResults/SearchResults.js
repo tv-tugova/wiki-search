@@ -4,19 +4,22 @@ import useWikiService from '../../services/WikiService';
 
 import './searchResults.scss';
 
-const SearchResults = ({searchQuery}) => {
-    const {articles, getAllArticles} = useWikiService();
+import { observer } from 'mobx-react-lite';
+import searchStore from '../../stores/SearchStore';
+
+const SearchResults = () => {
+    const {getAllArticles} = useWikiService();
 
     useEffect(() => {
-        if (searchQuery) {
-            getAllArticles(searchQuery);
+        if (searchStore.searchQuery) {
+            getAllArticles(searchStore.searchQuery);
         }
-    }, [searchQuery])
+    }, [searchStore.searchQuery])
 
     return (
         <div className='article__list'>
             <ul className='article__grid'>
-                {articles.map((article, index) => (
+                {searchStore.articles.map((article, index) => (
                     <li className='article__item' 
                         key={index}>
                         <a className='article__url' 
@@ -33,4 +36,4 @@ const SearchResults = ({searchQuery}) => {
     )
 }
 
-export default SearchResults;
+export default observer(SearchResults);

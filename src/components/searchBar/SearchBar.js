@@ -4,15 +4,18 @@ import useWikiService from '../../services/WikiService';
 
 import './searchBar.scss';
 
-const SearchBar = ({ query, setQuery, setSearchQuery }) => {
-    const {randArticle, getRandArticle} = useWikiService();
+import { observer } from 'mobx-react-lite';
+import searchStore from '../../stores/SearchStore';
+
+const SearchBar = () => {
+    const {getRandArticle} = useWikiService();
 
     const onUpdateSearch = (e) => {
-        setQuery(e.target.value);
+        searchStore.setQuery(e.target.value);
     }
 
     const onSearch = () => {
-        setSearchQuery(query);
+        searchStore.setSearchQuery(searchStore.query);
     }
 
     const onEnterPress = (e) => {
@@ -38,14 +41,14 @@ const SearchBar = ({ query, setQuery, setSearchQuery }) => {
                     type="text"
                     className="search__input"
                     placeholder="Search Here" 
-                    value={query}
+                    value={searchStore.query}
                     onChange={onUpdateSearch}
                     onKeyDown={onEnterPress}
                 />
             </span>
             <a 
                 className="btn"
-                href={randArticle?.url}
+                href={searchStore.randArticle?.url}
                 target="_blank"
                 onClick={getRandArticle}
             >RANDOM!</a>
@@ -53,4 +56,4 @@ const SearchBar = ({ query, setQuery, setSearchQuery }) => {
     )
 }
 
-export default SearchBar;
+export default observer(SearchBar);
