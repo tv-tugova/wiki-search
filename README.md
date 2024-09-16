@@ -25,5 +25,7 @@ Wiki-search -- это приложение на React, предназначен�
 
 Для корректной работы приложения следует скачать расширение, которое позволяет обойти ограничения CORS, например Moesif (https://chromewebstore.google.com/detail/moesif-origincors-changer/digfbfaphojjndkpccljibejjbppifbc?hl=ru).
 
-## Ссылка на сайт:
-https://tv-tugova.github.io/wiki-search/
+## Скриншоты:
+![1](./images/1.png)
+![2](./images/2.png)
+![3](./images/3.png)
